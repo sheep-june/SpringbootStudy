@@ -10,13 +10,20 @@ import hello.core.member.MemoryMemberRepository;
 //order클래스에서는 할인은 잘 모르겠고 니가 알아서 던져주셈 -> 단일체계 원칙 지키면서 설계
 
 public class OrderServiceImpl implements OrderService{
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+
+    //private final MemberRepository memberRepository = new MemoryMemberRepository();
+
     //private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
     //private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
     //위에 주석코드는 ocp dip위반
 
-    private DiscountPolicy discountPolicy;
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
 
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
